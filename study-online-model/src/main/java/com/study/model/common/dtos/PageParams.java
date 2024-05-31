@@ -1,7 +1,8 @@
 package com.study.model.common.dtos;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * @author Mr.M
@@ -10,19 +11,22 @@ import lombok.ToString;
  * @date 2023/2/11 15:33
  */
 @Data
-@ToString
+@ApiModel(description = "分页查询参数")
 public class PageParams {
 
     //当前页码
-    private Long pageNo = 1L;
+    @ApiModelProperty(value = "页码", example = "1")
+    private Long pageNo;
     //每页显示记录数
-    private Long pageSize = 30L;
+    @ApiModelProperty(value = "每页记录数", example = "10")
+    private Long pageSize;
 
-    public PageParams() {
-    }
-
-    public PageParams(Long pageNo, Long pageSize) {
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
+    public void checkParam(){
+        if (this.pageNo == null || this.pageNo <0){
+            setPageNo(1L);
+        }
+        if (this.pageSize == null || this.pageSize < 0 || this.pageSize > 100){
+            setPageSize(10L);
+        }
     }
 }
